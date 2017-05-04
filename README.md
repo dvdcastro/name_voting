@@ -4,6 +4,16 @@
 
 This project allows you to host a name voting page which updates the results in real time.
 
+## Prerequisites
+
+* [Bower](https://bower.io/)
+* [Firebase tools](https://firebase.google.com/docs/hosting/quickstart)
+
+```bash
+npm install -g bower
+npm install -g firebase-tools
+```
+
 ## Installation
 
 ```bash
