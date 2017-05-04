@@ -37,12 +37,12 @@ bower install
 cp .firebaserc.base .firebaserc
 ```
 
-*4.* Edit this file by adding your firebase project identifier.
+Edit this file by adding your firebase project identifier.
 
-Create a ```js/conf.js``` file. You can copy the base file.
+*4.* Create a ```js/conf.js``` file. You can copy the base file.
 
 ```bash
-cp .firebaserc.base .firebaserc
+cp js/conf.js.base js/conf.js
 ```
 
 Edit this file by adding your firebase project data, you can get this from the firebase console.
