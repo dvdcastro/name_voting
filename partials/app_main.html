@@ -1,0 +1,268 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h1>Voting <small ng-if="!vm.isAdmin()">Add names and vote for them</small><small ng-if="vm.isAdmin()">Admin</small></h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div ng-repeat="room in vm.votingrooms track by room.id" class="panel"
+                 ng-class="{'panel-default': !vm.isCurrRoom(room), 'panel-primary': vm.isCurrRoom(room)}">
+                <div class="panel-heading clearfix" role="tab" id="heading-{{ room.id }}">
+                    <h4 class="panel-title pull-left">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapse-{{ room.id }}" aria-expanded="true"
+                           aria-controls="collapse-{{ room.id }}" ng-click="vm.pickRoom(room)">
+                            {{ room.name }}
+                        </a>
+                    </h4>
+                    <button ng-if="vm.isAdmin()" class="btn btn-xs btn-danger pull-right" type="submit" ng-click="vm.removeVotingRoom(room)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+                <div id="collapse-{{ room.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ room.id }}">
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div ng-if="vm.isAdmin()" class="form-group">
+                                <label for="inputRoomName" class="col-sm-4 control-label">Room name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="inputRoomName" ng-model="room.name" ng-change="vm.updateRoomName(room)">
+                                </div>
+                            </div>
+                            <hr ng-if="vm.isAdmin()">
+                            <h4>Names</h4>
+                            <p>You can add names in here. You can change the names you have added but not the ones other people have.</p>
+                            <div class="form-group" ng-repeat="(vnkey, votingname) in room.votingnames track by $index">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button ng-if="!votingname.editing" class="btn btn-default"
+                                                    ng-disabled="!vm.canChangeName(vnkey)" ng-click="votingname.editing = true">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                            </button>
+                                            <button ng-if="votingname.editing" class="btn btn-default"
+                                                    ng-disabled="!vm.canChangeName(vnkey)" ng-click="vm.updateVotingnameName(room, vnkey, votingname)">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                        </span>
+                                        <input ng-disabled="!votingname.editing" type="text" class="form-control" id="inputVotingName-{{ vnkey }}" ng-model="votingname.name">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-disabled="!vm.canChangeName(vnkey)"
+                                                    ng-click="vm.removeVotingname(room, vnkey)">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <button type="submit" class="btn btn-default" ng-click="vm.addName(room)">Add name</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <h4 ng-if="vm.isAdmin()">Participants</h4>
+                            <div ng-if="vm.isAdmin()" class="form-group" ng-repeat=" (pkey, participant) in room.participants track by $index">
+                                <div class="col-sm-4">
+                                    <button class="btn btn-default pull-right" ng-click="vm.pickParticipant(room, pkey)" ng-disabled="vm.pickedParticipantKey == pkey">Pick</button>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button ng-if="!participant.editing"  class="btn btn-default" ng-click="participant.editing = true">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                            </button>
+                                            <button ng-if="participant.editing" class="btn btn-default" ng-click="vm.updateParticipantName(room, pkey, participant)">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                        </span>
+                                        <input ng-disabled="!participant.editing" type="text" class="form-control" id="inputParticipantName-{{ pkey }}" ng-model="participant.name">
+                                        <span ng-if="vm.pickedParticipantKey !== pkey" class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="vm.removeParticipant(room, pkey)">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="vm.isAdmin()" class="form-group">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <button type="submit" class="btn btn-default" ng-click="vm.addParticipant(room)">Add participant</button>
+                                </div>
+                            </div>
+                            <hr ng-if="vm.isAdmin()">
+                            <h4 ng-if="vm.isParticipantVoting(room)">Votes for {{ vm.pickedParticipant.name }}</h4>
+                            <p ng-if="vm.isParticipantVoting(room)">
+                                You can cast your votes here. The results reflect the average of all the votes made for each name.
+                            </p>
+                            <div ng-if="vm.isParticipantVoting(room)" class="form-group" ng-repeat="(vnkey, votingname) in room.votingnames track by $index">
+                                <label for="inputVote-{{ vnkey }}-{{ vm.pickedParticipantKey }}" class="col-sm-4 control-label">{{votingname.name}}</label>
+                                <div class="col-sm-6">
+                                    <input type="range" min="0" max="10" class="form-control" id="inputVote-{{ vnkey }}-{{ vm.pickedParticipantKey }}"
+                                           ng-model="vm.pickedParticipant.votes[vnkey].value"
+                                           ng-change="vm.updateVote(room, vm.pickedParticipantKey, vnkey, vm.pickedParticipant)">
+                                </div>
+                                <!--<div class="col-sm-2">-->
+                                    <!--<button class="btn btn-default" ng-click="vm.updateVote(room, vm.pickedParticipantKey, vnkey, vm.pickedParticipant)">Vote!</button>-->
+                                <!--</div>-->
+                                <div class="col-sm-1">
+                                    <p class="form-control-static" ng-bind-html="vm.getEmojiFor(vm.pickedParticipant.votes[vnkey].value)"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">{{ vm.pickedParticipant.votes[vnkey].value }}</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button ng-if="vm.isAdmin()" class="btn btn-default" type="submit" ng-click="vm.addVotingRoom()">
+            <span class="glyphicon glyphicon-plus"></span> Add voting room
+        </button>
+    </div>
+    <div class="col-sm-6">
+        <div ng-if="vm.currRoom" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Results for {{ vm.currRoom.name }}</h3>
+            </div>
+            <div class="panel-body">
+                <canvas id="resultsChart" class="chart chart-bar"
+                        chart-data="vm.chartData"
+                        chart-labels="vm.chartLabels"
+                        chart-options="vm.chartOptions"
+                        chart-series="vm.chartSeries">
+                </canvas>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="col-sm-8" colspan="2">Total votes</th>
+                    <td class="col-sm-4">{{ vm.numVotes }}</td>
+                </tr>
+                <tr>
+                    <th class="col-sm-6">Name</th>
+                    <th class="col-sm-2">Emoji</th>
+                    <th class="col-sm-4">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="label in vm.chartLabels track by $index">
+                    <td>{{ label }}</td>
+                    <td ng-bind-html="vm.getEmojiFor(vm.chartData[0][$index])"></td>
+                    <td>{{ vm.chartData[0][$index] }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModallLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.goToMain()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="welcomeModallLabel">Welcome</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you one of these persons?</p>
+                <div class="btn-toolbar" role="toolbar">
+                    <button class="btn btn-default" ng-repeat="(pkey, participant) in vm.currRoom.participants"
+                            type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.loginAsParticipant(pkey)">
+                        {{ participant.name }}
+                    </button>
+                </div>
+                <hr>
+                <p>If not, go ahead and register.</p>
+                <p>
+                    <button class="btn btn-default" type="button" class="btn btn-default" data-dismiss="modal"
+                            ng-click="vm.loginAsNewParticipant()">
+                        Ok, I'll register
+                    </button>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.goToMain()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModallLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.goToMain()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="registerModallLabel">Register</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="vm.newParticipantError" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error:</span> {{ vm.newParticipantError }}
+                </div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="fieldParticipantName" class="col-sm-4 control-label">Your name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="fieldParticipantName" ng-model="vm.newParticipantName" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldPassword" class="col-sm-4 control-label">Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="fieldPassword" ng-model="vm.newParticipantPassword" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button type="submit" class="btn btn-default" ng-click="vm.registerParticipant()">Register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.goToMain()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModallLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="vm.goToMain()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="loginModallLabel">Login</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="vm.loginParticipantError" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error:</span> {{ vm.loginParticipantError }}
+                </div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="participantName" class="col-sm-4 control-label">Your name</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="participantName" ng-model="vm.pickedParticipant.name" ng-disabled="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="participantPassword" class="col-sm-4 control-label">Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="participantPassword" ng-model="vm.currPassword" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button type="submit" class="btn btn-default" ng-click="vm.execParticipantLogin()">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.goToMain()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

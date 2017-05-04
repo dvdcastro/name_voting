@@ -1,0 +1,22 @@
+.untoggledImg {
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+.polar-chart-container {
+  background: url('../assets/premera_chart_bg_sm.png') no-repeat center;
+  background-size: 100% 100%;
+}
+
+.premera-chart-foreground {
+  position: absolute;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+  pointer-events:none;
+  opacity: 0.5;
+  left: 0em;
+  top: 4em;
+}
+
+.pagebreak { page-break-before: always; }

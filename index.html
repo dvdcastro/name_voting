@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/voting.png">
+
+    <title>Name voting</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">-->
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">-->
+
+    <!-- Angular Chart CSS -->
+    <!--<link rel="stylesheet" href="lib/angular-chart.js/dist/angular-chart.min.css">-->
+
+    <!-- Advanced Chart CSS -->
+    <link rel="stylesheet" href="css/advanced_chart.css">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <span><img alt="Voting icon" src="assets/voting.png" style="height: 1.3em;"></span>   Name Voting
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="container" role="main" ng-view>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.1.min.js" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+
+<!-- Chart library  -->
+<script type="text/javascript" src="lib/chart.js/dist/Chart.min.js"></script>
+
+<!-- Angular libraries  -->
+<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+<script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="lib/angular-chart.js/angular-chart.js"></script>
+<script type="text/javascript" src="lib/angular-route/angular-route.min.js"></script>
+
+<!-- Firebase libraries  -->
+<script type="text/javascript" src="lib/firebase/firebase.js"></script>
+
+<!-- html2canvas library -->
+<script type="text/javascript" src="lib/html2canvas/build/html2canvas.min.js"></script>
+
+<!-- markdown library -->
+<script type="text/javascript" src="lib/showdown/compressed/Showdown.min.js"></script>
+<script type="text/javascript" src="lib/angular-markdown-text/dist/angular-markdown-text.min.js"></script>
+
+<!-- App files  -->
+<script src="js/conf.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "name_voting",
+  "version": "0.0.1",
+  "authors": [
+    "@dvdcastro"
+  ],
+  "description": "Name voting Firebase + Angular 1.x web app",
+  "main": "js/app.js",
+  "keywords": [
+    "angular",
+    "firebase"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dvdcastro/name_voting",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-chart.js": "^1.1.1",
+    "angular-sanitize": "~1.6.3",
+    "angular-route": "~1.6.4",
+    "angular-markdown-text": "~0.0.2",
+    "html2canvas": "~0.4.1",
+    "firebase": "~3.7.0",
+    "ng-csv": "~0.3.6"
+  }
+}

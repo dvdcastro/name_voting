@@ -1,0 +1,37 @@
+// Initialize Firebase
+
+var alternatives = {
+  //- Production database
+  prod: {
+    firebase: {
+      apiKey: "...",
+      authDomain: "...",
+      databaseURL: "...",
+      projectId: "...",
+      storageBucket: "...",
+      messagingSenderId: "..."
+    },
+    //- Default values
+    defaults: {
+      startvote: 5
+    }
+  },
+  //- Development database
+  dev: {
+    firebase: {
+      apiKey: "...",
+      authDomain: "...",
+      databaseURL: "...",
+      projectId: "...",
+      storageBucket: "...",
+      messagingSenderId: "..."
+    },
+    //- Default values
+    defaults: {
+      startvote: 5
+    }
+  },
+
+};
+
+var config = alternatives.prod;

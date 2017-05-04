@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h1>Voting Rooms <small>Pick a room</small></h1>
+        </div>
+        <p>Pick a room to start voting for names.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 btn-toolbar" role="toolbar">
+        <a ng-repeat="(key,room) in vm.rooms track by $index"
+           role="button" class="btn btn-lg btn-default" ng-href="#!/voting/{{key}}">
+            <span class="glyphicon glyphicon-folder-open"> </span>  {{room.name}}
+        </a>
+    </div>
+</div>
