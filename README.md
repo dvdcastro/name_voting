@@ -6,6 +6,7 @@ This project allows you to host a name voting page which updates the results in 
 
 ## Prerequisites
 
+* [nodejs](https://nodejs.org), I suggest using [nvm](https://github.com/creationix/nvm)
 * [Bower](https://bower.io/)
 * [Firebase tools](https://firebase.google.com/docs/hosting/quickstart)
 
